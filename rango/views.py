@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
+
 def index(request):
     request.session.set_test_cookie()
     category_list = Category.objects.order_by('-likes')[:5]
@@ -23,16 +24,18 @@ def index(request):
     return response
 
 
-
 def about(request):
     if request.session.test_cookie_worked():
         print("TEST COOKIE WORKED!")
         request.session.delete_test_cookie()
     # To complete the exercise in chapter 4, we need to remove the following line
     # return HttpResponse("Rango says here is the about page. <a href='/rango/'>View index page</a>")
-
     # and replace it with a pointer to ther about.html template using the render method
-    return render(request, 'rango/about.html', {})
+    context_dict = {}
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    response = render(request, 'rango/about.html', context=context_dict)
+    return response
 
 
 def show_category(request, category_name_slug):
@@ -239,7 +242,7 @@ def visitor_cookie_handler(request):
     last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
     # If it's been more than a day since the last visit...
-    if (datetime.now() - last_visit_time).days > 0:
+    if (datetime.now() - last_visit_time).seconds > 0:
         visits = visits + 1
         # update the last visit cookie now that we have updated the count
         request.session['last_visit'] = str(datetime.now())

@@ -6,11 +6,9 @@
 {% endblock %}
 
 {% block body_block%}
+        <p>visits: {{ visits }}</p>
         <div>
-            <a href=" ">index</a ><br />
+            <a href="{% url 'index' %}">index</a>
+            <img src="{{ MEDIA_URL}}cat.jpg" />
         </div>
-        <p>visits: {{ visits }}</p> 
-    <div>
-        <img src="{{ MEDIA_URL}}cat.jpg" />
-    </div>
 {% endblock %}
