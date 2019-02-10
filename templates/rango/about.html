@@ -1,0 +1,16 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block%}
+    About
+{% endblock %}
+
+{% block body_block%}
+        <div>
+            <a href=" ">index</a ><br />
+        </div>
+        <p>visits: {{ visits }}</p> 
+    <div>
+        <img src="{{ MEDIA_URL}}cat.jpg" />
+    </div>
+{% endblock %}
